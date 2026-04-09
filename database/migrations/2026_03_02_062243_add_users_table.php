@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('nama');
-            $table->string('alamat');
-            $table->string('no_ktp')->unique();
-            $table->string('no_hp');
+            $table->string('alamat')->nullable();
+            $table->string('no_ktp')->unique()->nullable();
+            $table->string('no_hp')->nullable();
             $table->string('no_rm')->unique()->nullable();
 
             $table->enum('role', ['admin', 'dokter', 'pasien']); // sesuaikan kebutuhan

@@ -1,3 +1,191 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --sidebar-w: 260px;
+    }
+
+    * {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+        @apply bg-[#f1f5f9];
+    }
+}
+
+@layer components {
+    .brand-serif {
+        font-family: 'Instrument Serif', serif;
+    }
+
+    /* LAYOUT */
+    .app-wrapper {
+        @apply flex min-h-screen;
+    }
+
+    /* SIDEBAR */
+    .sidebar-fixed {
+        width: var(--sidebar-w);
+        @apply h-screen sticky top-0 shrink-0 z-40 overflow-hidden;
+        background: linear-gradient(160deg, #1e2d6b 0%, #2d4499 60%, #1a2d7a 100%);
+        box-shadow: 4px 0 24px rgba(30, 45, 107, 0.35);
+        transition: all .3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* MAIN */
+    .main-content {
+        @apply flex-1 flex flex-col min-h-screen min-w-0;
+    }
+
+    /* CONTENT SCROLL */
+    .main-scroll {
+        @apply flex-1 p-[28px];
+    }
+
+    /* MOBILE */
+    @media(max-width:1024px) {
+        .sidebar-fixed {
+            @apply fixed left-0 -translate-x-full;
+        }
+
+        .sidebar-fixed.open {
+            @apply translate-x-0;
+        }
+    }
+
+    /* OVERLAY */
+    .sidebar-overlay {
+        @apply hidden fixed inset-0 bg-black/45 z-[39] backdrop-blur-[2px];
+    }
+
+    /* BUTTONS */
+    .btn-primary-gradient {
+        @apply flex items-center justify-center gap-2 w-full p-[13px] text-white rounded-[10px] text-[0.9rem] font-bold transition-all duration-150 border-none cursor-pointer;
+        background: linear-gradient(135deg, #1e2d6b, #2d4499);
+    }
+
+    .btn-primary-gradient:hover {
+        background: linear-gradient(135deg, #162156, #1e2d6b);
+    }
+
+    /* Admin page shell */
+    .ui-page-head {
+        @apply flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-7;
+    }
+
+    .ui-title {
+        @apply text-[1.65rem] md:text-[1.9rem] font-extrabold text-slate-800 tracking-tight;
+    }
+
+    .ui-subtitle {
+        @apply text-sm text-slate-500 mt-1;
+    }
+
+    .ui-surface {
+        @apply bg-white rounded-2xl border border-slate-200 shadow-sm;
+    }
+
+    .ui-panel-head {
+        @apply px-6 py-5 border-b border-slate-100;
+    }
+
+    .ui-panel-body {
+        @apply p-6;
+    }
+
+    /* Buttons */
+    .ui-btn,
+    .ui-btn-primary,
+    .ui-btn-soft,
+    .ui-btn-edit,
+    .ui-btn-danger {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-150;
+    }
+
+    .ui-btn-primary {
+        @apply text-white;
+        background: linear-gradient(135deg, #1e2d6b, #2d4499);
+        box-shadow: 0 10px 20px rgba(30, 45, 107, 0.2);
+    }
+
+    .ui-btn-primary:hover {
+        background: linear-gradient(135deg, #162156, #1f3178);
+        transform: translateY(-1px);
+    }
+
+    .ui-btn-soft {
+        @apply bg-slate-100 text-slate-700 hover:bg-slate-200;
+    }
+
+    .ui-btn-edit {
+        @apply bg-amber-500 text-white hover:bg-amber-600;
+    }
+
+    .ui-btn-danger {
+        @apply bg-rose-500 text-white hover:bg-rose-600;
+    }
+
+    /* Form */
+    .ui-field {
+        @apply space-y-1.5;
+    }
+
+    .ui-label {
+        @apply block text-sm font-semibold text-slate-700;
+    }
+
+    .ui-help {
+        @apply text-xs text-slate-400;
+    }
+
+    .ui-input,
+    .ui-textarea {
+        @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 shadow-sm transition-all duration-150;
+    }
+
+    .ui-input:focus,
+    .ui-textarea:focus {
+        @apply outline-none border-blue-500 ring-4 ring-blue-100;
+    }
+
+    .ui-input.is-error,
+    .ui-textarea.is-error {
+        @apply border-red-400 ring-4 ring-red-100;
+    }
+
+    .ui-error {
+        @apply text-xs text-red-600;
+    }
+
+    /* Table */
+    .ui-table-wrap {
+        @apply overflow-x-auto;
+    }
+
+    .ui-table {
+        @apply w-full min-w-[720px] border-collapse;
+    }
+
+    .ui-table thead th {
+        @apply text-left text-[11px] uppercase tracking-[0.16em] text-slate-500 bg-slate-50 px-6 py-4 border-b border-slate-200;
+    }
+
+    .ui-table tbody td {
+        @apply px-6 py-4 border-b border-slate-100 text-sm text-slate-600 align-top;
+    }
+
+    .ui-table tbody tr:hover {
+        @apply bg-slate-50/70;
+    }
+
+    .ui-empty {
+        @apply flex flex-col items-center justify-center py-14 text-center text-slate-400;
+    }
+
+    .ui-empty i {
+        @apply text-3xl mb-3;
+    }
+}
