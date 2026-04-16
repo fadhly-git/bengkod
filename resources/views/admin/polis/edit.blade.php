@@ -2,7 +2,7 @@
 
     <div class="ui-page-head">
         <div class="flex items-center gap-3">
-            <a href="{{ route('polis.index') }}" class="ui-btn-soft !w-10 !h-10 !p-0">
+            <a href="{{ route('admin.polis.index') }}" class="ui-btn-soft !w-10 !h-10 !p-0">
                 <i class="fas fa-arrow-left text-sm"></i>
             </a>
 
@@ -16,7 +16,7 @@
     <div class="ui-surface">
         <div class="ui-panel-body">
 
-            <form action="{{ route('polis.update', $poli->id) }}" method="POST">
+            <form action="{{ route('admin.polis.update', $poli->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -55,7 +55,7 @@
                         <i class="fas fa-save mr-1"></i> Simpan
                     </button>
 
-                    <a href="{{ route('polis.index') }}" class="ui-btn-soft">
+                    <a href="{{ route('admin.polis.index') }}" class="ui-btn-soft">
                         Batal
                     </a>
                 </div>

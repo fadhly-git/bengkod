@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -60,5 +62,10 @@ class User extends Authenticatable
     public function jadwalPeriksa()
     {
         return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
+    }
+
+    public function verifikasiPembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'verified_by');
     }
 }

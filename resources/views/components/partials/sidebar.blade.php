@@ -2,7 +2,7 @@
 
     {{-- ================= BRAND ================= --}}
     <div class="px-5 py-5 border-b border-white/10">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 hover:cursor-pointer" id="logo" data-sidebar-brand data-role="{{ auth()->user()->role }}">
             <img src="{{ asset('images/logo-bengkot.png') }}" class="w-10 h-10 rounded-xl object-cover">
 
             <div>
@@ -56,10 +56,34 @@
                 Dashboard Admin
             </a>
 
-            <a href="{{ route('polis.index') }}"
-                class="{{ $baseLink }} {{ request()->routeIs('polis.*') ? $active : $inactive }}">
+            <a href="{{ route('admin.polis.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.polis.*') ? $active : $inactive }}">
                 <i class="fas fa-hospital w-4 text-center"></i>
                 Manajemen Poli
+            </a>
+
+            <a href="{{ route('admin.dokter.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.dokter.*') ? $active : $inactive }}">
+                <i class="fas fa-user-doctor w-4 text-center"></i>
+                Manajemen Dokter
+            </a>
+
+            <a href="{{ route('admin.pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-users w-4 text-center"></i>
+                Data Pasien
+            </a>
+
+            <a href="{{ route('admin.obat.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.obat.*') ? $active : $inactive }}">
+                <i class="fas fa-capsules w-4 text-center"></i>
+                Manajemen Obat
+            </a>
+
+            <a href="{{ route('admin.pembayaran.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.pembayaran.*') ? $active : $inactive }}">
+                <i class="fas fa-wallet w-4 text-center"></i>
+                Verifikasi Pembayaran
             </a>
 
         </div>
@@ -79,6 +103,24 @@
                 class="{{ $baseLink }} {{ request()->routeIs('pasien.dashboard') ? $active : $inactive }}">
                 <i class="fas fa-house-medical w-4 text-center"></i>
                 Dashboard Pasien
+            </a>
+
+            <a href="{{ route('pasien.daftar-poli.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.daftar-poli.*') ? $active : $inactive }}">
+                <i class="fas fa-notes-medical w-4 text-center"></i>
+                Periksa
+            </a>
+
+            <a href="{{ route('pasien.riwayat.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.riwayat.*') ? $active : $inactive }}">
+                <i class="fas fa-file-medical w-4 text-center"></i>
+                Riwayat Pendaftaran
+            </a>
+
+            <a href="{{ route('pasien.pembayaran.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.pembayaran.*') ? $active : $inactive }}">
+                <i class="fas fa-receipt w-4 text-center"></i>
+                Pembayaran
             </a>
 
 
@@ -101,6 +143,24 @@
                 Dashboard Dokter
             </a>
 
+            <a href="{{ route('dokter.jadwal-periksa.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.jadwal-periksa.*') ? $active : $inactive }}">
+                <i class="fas fa-calendar-days w-4 text-center"></i>
+                Jadwal Periksa
+            </a>
+
+            <a href="{{ route('dokter.pemeriksaan.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.pemeriksaan.*') ? $active : $inactive }}">
+                <i class="fas fa-clipboard-list w-4 text-center"></i>
+                Antrean Pasien
+            </a>
+
+            <a href="{{ route('dokter.riwayat-pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.riwayat-pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-file-medical w-4 text-center"></i>
+                Riwayat Pasien
+            </a>
+
 
 
         </div>
@@ -111,7 +171,7 @@
 
     {{-- ================= LOGOUT ================= --}}
     <div class="p-4 border-t border-white/10">
-        <form method="POST" action="/logout">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
                 class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-all">
@@ -122,3 +182,14 @@
     </div>
 
 </aside>
+<script>
+    document.querySelector('[data-sidebar-brand]').addEventListener('click', function() {
+        const role = this.getAttribute('data-role');
+        const routes = {
+            'admin': '/admin/dashboard',
+            'dokter': '/dokter/dashboard',
+            'pasien': '/pasien/dashboard'
+        };
+        window.location.href = routes[role] || '/';
+    });
+</script>

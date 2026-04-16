@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,22 +16,26 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
             $user = Auth::user();
-            if($user->role === 'admin') {
+            if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
-            } else if ($user->role === 'dokter') {
+            } elseif ($user->role === 'dokter') {
                 return redirect()->route('dokter.dashboard');
             } else {
                 return redirect()->route('pasien.dashboard');
             }
         }
 
-        return redirect()->back()->with('error', 'Invalid credentials');
+        return back()
+            ->withErrors(['email' => 'Email atau password tidak valid.'])
+            ->onlyInput('email');
     }
 
     public function showRegister()
@@ -37,36 +43,33 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'alamat' => 'required|string|max:500',
-            'no_ktp' => 'required|string|unique:users|max:20',
-            'no_hp' => 'required|string|max:20',
-        ]);
+        $validated = $request->validated();
 
-        if(User::where('no_ktp', $request->no_ktp)->exists()) {
-            return redirect()->back()->with('error', 'KTP number already registered');
-        }
+        $no_rm = 'RM' . str_pad(User::where('role', 'pasien')->count() + 1, 5, '0', STR_PAD_LEFT);
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'alamat' => $request->alamat,
-            'no_ktp' => $request->no_ktp,
-            'no_hp' => $request->no_hp,
+            'nama' => $validated['nama'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'alamat' => $validated['alamat'],
+            'no_ktp' => $validated['no_ktp'],
+            'no_hp' => $validated['no_hp'],
+            'role' => 'pasien',
+            'no_rm' => $no_rm,
         ]);
 
-        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan login.');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 }

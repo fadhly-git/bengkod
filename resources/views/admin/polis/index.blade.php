@@ -6,7 +6,7 @@
             <p class="ui-subtitle">Kelola daftar poli untuk kebutuhan pendaftaran dan jadwal pemeriksaan.</p>
         </div>
 
-        <a href="{{ route('polis.create') }}" class="ui-btn-primary">
+        <a href="{{ route('admin.polis.create') }}" class="ui-btn-primary">
             <i class="fas fa-plus"></i>
             Tambah Poli
         </a>
@@ -39,12 +39,12 @@
 
                         <td>
                             <div class="flex justify-end gap-2">
-                                <a href="{{ route('polis.edit', $poli->id) }}" class="ui-btn-edit !px-3.5 !py-2 !text-xs">
+                                <a href="{{ route('admin.polis.edit', $poli->id) }}" class="ui-btn-edit !px-3.5 !py-2 !text-xs">
                                     <i class="fas fa-pen-to-square"></i>
                                     Edit
                                 </a>
 
-                                <form action="{{ route('polis.destroy', $poli->id) }}" method="POST">
+                                <form action="{{ route('admin.polis.destroy', $poli->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" onclick="return confirm('Yakin ingin menghapus poli ini?')" class="ui-btn-danger !px-3.5 !py-2 !text-xs">

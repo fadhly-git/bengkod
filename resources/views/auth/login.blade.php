@@ -27,7 +27,7 @@
             @endif
 
 
-            <form action="{{ route('login') }}" method="POST">
+            <form action="{{ route('login.attempt') }}" method="POST">
                 @csrf
 
 
